@@ -2,7 +2,7 @@ Name: cookbook-rb-net-tools
 Version: %{__version}
 Release: %{__release}%{?dist}
 BuildArch: noarch
-Summary: Chef cookbook to install and configure rb-net-tools on redborder proxy nodes
+Summary: Chef cookbook to install and configure redborder-net-tools on redborder proxy nodes
 
 License: AGPL 3.0
 URL: https://github.com/redBorder/cookbook-rb-net-tools
