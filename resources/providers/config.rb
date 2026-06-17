@@ -8,7 +8,7 @@ action :add do
     rb_webui    = new_resource.rb_webui
 
     dnf_package 'redborder-net-tools' do
-      action :install
+      action :upgrade
     end
 
     directory '/etc/redborder-net-tools' do
@@ -52,14 +52,6 @@ action :remove do
       ignore_failure true
       supports status: true, enable: true
       action [:stop, :disable]
-    end
-
-    file '/etc/redborder-net-tools/config.yml' do
-      action :delete
-    end
-
-    dnf_package 'redborder-net-tools' do
-      action :remove
     end
 
     Chef::Log.info('redborder-net-tools has been removed correctly.')
