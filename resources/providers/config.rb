@@ -24,7 +24,7 @@ action :add do
       group 'root'
       mode '0640'
       retries 2
-      cookbook 'rb_net_tools'
+      cookbook 'rb-net-tools'
       variables(
         rb_webui:    rb_webui,
         cdomain:     cdomain,
