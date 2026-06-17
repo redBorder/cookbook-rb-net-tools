@@ -1,4 +1,4 @@
-name             'rb_net_tools'
+name             'rb-net-tools'
 maintainer       'Eneo Tecnología S.L.'
 maintainer_email 'git@redborder.com'
 license          'AGPL-3.0'
