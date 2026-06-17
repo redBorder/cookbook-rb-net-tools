@@ -11,8 +11,15 @@ action :add do
       action :install
     end
 
-    template '/etc/sysconfig/redborder-net-tools' do
-      source 'redborder-net-tools_sv.erb'
+    directory '/etc/redborder-net-tools' do
+      owner 'root'
+      group 'root'
+      mode  '0750'
+      action :create
+    end
+
+    template '/etc/redborder-net-tools/config.yml' do
+      source 'config.yml.erb'
       owner 'root'
       group 'root'
       mode '0640'
@@ -47,7 +54,7 @@ action :remove do
       action [:stop, :disable]
     end
 
-    file '/etc/sysconfig/redborder-net-tools' do
+    file '/etc/redborder-net-tools/config.yml' do
       action :delete
     end
 
