@@ -1,0 +1,6 @@
+name             'rb_net_tools'
+maintainer       'Eneo Tecnología S.L.'
+maintainer_email 'git@redborder.com'
+license          'AGPL-3.0'
+description      'Installs/Configures rb-net-tools on redborder proxy nodes'
+version          '0.0.1'
