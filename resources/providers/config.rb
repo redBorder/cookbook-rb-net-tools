@@ -13,7 +13,7 @@ action :add do
 
     directory '/etc/redborder-net-tools' do
       owner 'root'
-      group 'root'
+      group 'nobody'
       mode  '0750'
       action :create
     end
@@ -21,7 +21,7 @@ action :add do
     template '/etc/redborder-net-tools/config.yml' do
       source 'config.yml.erb'
       owner 'root'
-      group 'root'
+      group 'nobody'
       mode '0640'
       retries 2
       cookbook 'rb-net-tools'
