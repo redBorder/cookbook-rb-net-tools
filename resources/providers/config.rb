@@ -6,6 +6,14 @@ action :add do
     cdomain     = new_resource.cdomain
     sensor_uuid = new_resource.sensor_uuid
     rb_webui    = new_resource.rb_webui
+    user        = new_resource.user
+
+    # User creation
+    execute 'create_user' do
+      command "/usr/sbin/useradd #{user}"
+      ignore_failure true
+      not_if "getent passwd #{user}"
+    end
 
     dnf_package 'redborder-net-tools' do
       action :upgrade
@@ -13,7 +21,7 @@ action :add do
 
     directory '/etc/redborder-net-tools' do
       owner 'root'
-      group 'nobody'
+      group user
       mode  '0750'
       action :create
     end
@@ -21,7 +29,7 @@ action :add do
     template '/etc/redborder-net-tools/config.yml' do
       source 'config.yml.erb'
       owner 'root'
-      group 'nobody'
+      group user
       mode '0640'
       retries 2
       cookbook 'rb-net-tools'
