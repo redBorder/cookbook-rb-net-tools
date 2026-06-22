@@ -1,0 +1,69 @@
+# Cookbook:: rb_net_tools
+# Provider:: config
+
+action :add do
+  begin
+    cdomain     = new_resource.cdomain
+    sensor_uuid = new_resource.sensor_uuid
+    rb_webui    = new_resource.rb_webui
+    user        = new_resource.user
+
+    # User creation
+    execute 'create_user' do
+      command "/usr/sbin/useradd #{user}"
+      ignore_failure true
+      not_if "getent passwd #{user}"
+    end
+
+    dnf_package 'redborder-net-tools' do
+      action :upgrade
+    end
+
+    directory '/etc/redborder-net-tools' do
+      owner 'root'
+      group user
+      mode  '0750'
+      action :create
+    end
+
+    template '/etc/redborder-net-tools/config.yml' do
+      source 'config.yml.erb'
+      owner 'root'
+      group user
+      mode '0640'
+      retries 2
+      cookbook 'rb-net-tools'
+      variables(
+        rb_webui:    rb_webui,
+        cdomain:     cdomain,
+        sensor_uuid: sensor_uuid
+      )
+      notifies :restart, 'service[redborder-net-tools]', :delayed
+    end
+
+    service 'redborder-net-tools' do
+      service_name 'redborder-net-tools'
+      ignore_failure true
+      supports status: true, restart: true, enable: true
+      action [:start, :enable]
+    end
+
+    Chef::Log.info('redborder-net-tools has been configured correctly.')
+  rescue => e
+    Chef::Log.error(e.message)
+  end
+end
+
+action :remove do
+  begin
+    service 'redborder-net-tools' do
+      ignore_failure true
+      supports status: true, enable: true
+      action [:stop, :disable]
+    end
+
+    Chef::Log.info('redborder-net-tools has been removed correctly.')
+  rescue => e
+    Chef::Log.error(e.message)
+  end
+end
