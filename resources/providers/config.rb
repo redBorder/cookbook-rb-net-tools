@@ -8,7 +8,6 @@ action :add do
     rb_webui    = new_resource.rb_webui
     user        = new_resource.user
 
-    # Service-only user: no login shell (also fixes it on existing installs)
     user user do
       system true
       shell '/sbin/nologin'
