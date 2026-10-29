@@ -8,11 +8,10 @@ action :add do
     rb_webui    = new_resource.rb_webui
     user        = new_resource.user
 
-    # User creation
-    execute 'create_user' do
-      command "/usr/sbin/useradd #{user}"
-      ignore_failure true
-      not_if "getent passwd #{user}"
+    # Service-only user: no login shell (also fixes it on existing installs)
+    user user do
+      system true
+      shell '/sbin/nologin'
     end
 
     dnf_package 'redborder-net-tools' do
